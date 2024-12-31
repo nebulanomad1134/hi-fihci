@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Montserrat, sans-serif;
+            background-color: #f7f9ef;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgb(224, 217, 229);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .content {
+            margin-top: 1px;
+            /* To prevent content from hiding behind the header */
+            padding: 20px;
+        }
+
+        .custom-header .actions button {
+
+            border-radius: 20px;
+            border: none;
+        }
+
+        /* Button Styles */
+        .actions .login {
+            background-color: #fefffe;
+            padding: 10px 15px;
+            color: #112c2d;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+
+        }
+
+        .actions .register {
+            background-color: #faa935;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+
+        }
+
+        .actions .login:hover,
+        .actions .register:hover {
+            opacity: 0.8;
+        }
+
+        .actions .review,
+        .actions .plan {
+            background-color: transparent;
+            text-shadow: 1px 1px 2px #faa935, -1px -1px 2px #faa935, 1px -1px 2px #faa935, -1px 1px 2px #faa935;
+            color: white;
+            padding: 0px 5px;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+
+        }
+
+        .actions .plan {
+            margin-right: 5px;
+
+        }
+
+        .actions .review:hover,
+        .actions .plan:hover {
+            opacity: 0.8;
+        }
+
+        .logo img {
+            width: 200px;
+            height: auto;
+            max-width: 140%;
+            margin-left: 10px;
+
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 15px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container input {
+            border: none;
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-container i {
+            color: #888;
+            margin-left: 10px;
+        }
+
+
+
+        .content {
+            padding: 40px;
+        }
+
+        .place-container {
+            background: rgb(222, 225, 202);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .place-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-right: 10px;
+
+        }
+
+        .place-header h1 {
+            margin: 0;
+        }
+
+        .bookmark i {
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .bookmark.active i {
+            color: gold;
+        }
+
+        .place-main {
+            display: flex;
+            margin-top: 30px;
+            gap: 40px;
+        }
+
+        .place-images img {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+        }
+
+        .place-info {
+            max-width: 500px;
+        }
+
+        .rating {
+            font-size: 22px;
+            color: #f4b400;
+        }
+
+        .about ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .about ul li::before {
+            content: "\2022";
+            color: #007BFF;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+        }
+
+        .reviews {
+            margin-top: 50px;
+            display: flex;
+            gap: 40px;
+        }
+
+
+        .rating-number {
+            font-size: 4rem;
+            font-weight: 700;
+        }
+
+        .stars {
+            font-size: 1.5rem;
+            color: gold;
+        }
+
+        .review-count {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .rating-bar span {
+            width: 20px;
+        }
+
+        .bar {
+            flex: 1;
+            height: 15px;
+            margin-left: 10px;
+            background-color: #ddd;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background-color: #ffb400;
+            border-radius: 10px;
+            position: absolute;
+        }
+
+        .write-review {
+            background-color: #f1915d;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .user-reviews {
+            flex: 2;
+        }
+
+        .review-card {
+            background: #f4ecec;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .review-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .review-text {
+            flex: 1;
+        }
+
+        .review-text h4 {
+            margin: 0;
+        }
+
+        .sort-options {
+            margin-bottom: 20px;
+        }
+
+        .sort-options select {
+            padding: 8px;
+        }
+
+
+        .rating-breakdown {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        .user-rating-header {
+            margin-top: 50px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .rating-wrapper {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+        .rating-section {
+            width: 300px; 
+}
+
+        .consensus-section {
+            margin-top: 50px;
+            background-color: #ddedfe;
+            height: 100px;
+            border-radius: 10px;
+            padding: 15px;
+}
+.actions-wrap{
+    display: flex;
+    gap: 20px;
+}
+.actions-wrap .bookmark{
+    margin-top: 20px;
+}
+.actions-wrap button{
+    font-size: 14px;
+    padding: 5px 15px;
+    max-height: 30px;
+    margin-top: 25px;
+}
+
+
+
+        .consensus-section h3 {
+            margin-top: 0;
+        }
+
+        .review-photos {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.review-photos img {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+    </style>
+</head>
+
+<body>
+    <header class="custom-header">
+        <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+            <img src="img/logo.png" alt="Company Logo">
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search for places, activities...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="actions">
+            <button class="review" onclick="location.href='write-review.html'">Write a Review</button>
+            <button class="plan" onclick="location.href='plan-trip.html'">Plan Your Trip</button>
+            <button class="login">Login</button>
+            <button class="register">Register</button>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="place-container">
+            <div class="place-header">
+                <h1>Imperial Citadel</h1>
+                <!-- <div class="bookmark" onclick="toggleBookmark(this)">
+                    <i class="fa-solid fa-bookmark"></i>
+                </div> -->
+            </div>
+
+            <div class="place-main">
+                <div class="place-info">
+                    <div class="rating" style="display: inline;">&#9733; &#9733; &#9733; &#9733; &#9734; </div>
+                    <div style="display: inline;">(120 reviews)</div>
+                    <div class="about">
+                        <h3>About</h3>
+                        <ul>
+                            <li>Address: 19C Hoang Dieu Street, Hue City, Thua Thien-Hue Province, Vietnam</li>
+                            <li>Ticket: 150,000 VND (~ $6.60 USD)</li>
+                            <li>Respect the site’s rules and dress code: no shorts, miniskirts, tank tops, etc.</li>
+                        </ul>
+                    </div>
+                    <p>The Imperial Citadel of Hue, also known as the Forbidden Purple City, is a UNESCO World Heritage Site and a must-visit attraction in Vietnam. You’ll see impressive architecture, including temples, palaces, and walls</p>
+                        <div class="actions-wrap"> 
+                            <button class="write-review" onclick="location.href='write-review.html'">Write Your Review</button>
+                            <div class="bookmark" onclick="toggleBookmark(this)" style="font-size: 32px;">
+                                <i class="fa-solid fa-bookmark"></i>
+                        </div>
+                        </div>
+        
+
+                </div>
+
+                <div class="place-images">
+                    <img src="img/8.jpg" alt="Beautiful Beach">
+                </div>
+            </div>
+        </div>
+
+        <div class="rating-wrapper">
+            <div class="rating-section">
+                <h3> Reviews<h3>
+                        <div class="rating-number">4.5</div>
+                        <div class="stars">&#9733; &#9733; &#9733; &#9733; &#9734;</div>
+                        <div class="review-count">(128 Reviews)</div>
+            </div>
+            <div class="consensus-section">
+                <h3>&#10024 AI summary</h3>
+                <p>Most users praise the calm atmosphere and cleanliness of the beach, while some
+                    mention it gets crowded during weekends.</p>
+            </div>
+        </div>
+
+        <div class="rating-breakdown">
+            <div class="rating-bar">
+                <span>5</span>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 70%;"></div>
+                </div>
+            </div>
+            <div class="rating-bar">
+                <span>4</span>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 50%;"></div>
+                </div>
+            </div>
+            <div class="rating-bar">
+                <span>3</span>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 30%;"></div>
+                </div>
+            </div>
+            <div class="rating-bar">
+                <span>2</span>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 10%;"></div>
+                </div>
+            </div>
+            <div class="rating-bar">
+                <span>1</span>
+                <div class="bar">
+                    <div class="bar-fill" style="width: 5%;"></div>
+                </div>
+            </div>
+            <button class="write-review" onclick="location.href='write-review.html'">Write Your Review</button>
+        </div>
+
+
+
+        <div class="user-reviews">
+            <div class="sort-options">
+                <label for="sort">Sort by:</label>
+                <select id="sort">
+                    <option value="relevant">Most Relevant</option>
+                    <option value="recent">Most Recent</option>
+                </select>
+            </div>
+
+            <div id="reviewList"></div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function toggleBookmark(el) {
+            el.classList.toggle('active');
+        }
+
+        const reviews = [
+            {
+                user: "Alice Johnson",
+                img: "img/pro5/1.png",
+                date: "2 days ago",
+                reviewPhotos: ["img/1.jpg", "img/2.jpg"],
+                text: "As a history buff, it is great place to visit and learn about the history of all the kings and empires. The palace is old and some buildings have been replace by the French so it is not really grand as those in Hue. Other interesting things are the bunkers and the excavation side across the road."
+            },
+            {
+                user: "Mark Smith",
+                img: "img/pro5/2.png",
+                date: "1 week ago",
+                reviewPhotos: ["img/3.jpg", "img/8.jpg"],
+                text: "It is a beautiful and historical place. Allow yourself time to explore the ancient architectural buildings and walk through the ancient gardens.."
+            }
+        ];
+
+        const reviewList = document.getElementById('reviewList');
+reviews.forEach(review => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    
+    let photoGallery = "";
+    if (review.reviewPhotos && review.reviewPhotos.length > 0) {
+        photoGallery = review.reviewPhotos.map(photo => 
+            `<img src="${photo}" class="review-photo" alt="Review photo">`
+        ).join('');
+    }
+
+    card.innerHTML = `
+        <img src="${review.img}" alt="${review.user}" class="profile-pic">
+        <div class="review-text">
+            <h4>${review.user}</h4>
+            <p><small>${review.date}</small></p>
+            <p>${review.text}</p>
+            <div class="review-photos">
+                ${photoGallery}
+            </div>
+        </div>
+    `;
+    reviewList.appendChild(card);
+});
+
+    </script>
+</body>
+
+</html>

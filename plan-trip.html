@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Trip</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            /* margin-top: 10px; */
+            /* justify-content: center;
+            align-items: center; */
+            height: 500px;
+            background-color: #f4f4f4;
+            background: url('img/bg4.jpg');
+            background-size: cover;
+            overflow: hidden;
+
+        }
+        .container-wrapper {
+            overflow-y: auto;
+            height: 80vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            
+        }
+
+
+                /* Header Styles */
+                header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgb(246, 236, 252, 0);
+            /* position: sticky; */
+            top: 0;
+            z-index: 1000;
+            /* width: 100%;              */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+
+        .custom-header .actions button {
+
+            border-radius: 20px;
+            border: none;
+        }
+
+        /* Button Styles */
+        .actions .login {
+            background-color: #fefffe;
+            padding: 10px 15px;
+            color: #112c2d;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+
+        }
+
+        .actions .register {
+            background-color: #faa935;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+
+        }
+
+        .actions .login:hover,
+        .actions .register:hover {
+            opacity: 0.8;
+        }
+
+        .actions .review,
+        .actions .plan {
+            background-color: transparent;
+            text-shadow: 1px 1px 2px #faa935, -1px -1px 2px #faa935, 1px -1px 2px #faa935, -1px 1px 2px #faa935;
+            color: white;
+            padding: 0px 5px;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: Montserrat, sans-serif;
+
+        }
+
+        .actions .plan {
+            margin-right: 5px;
+
+        }
+
+        .actions .review:hover,
+        .actions .plan:hover {
+            opacity: 0.8;
+        }
+
+        .logo img {
+            width: 200px;
+            height: auto;
+            max-width: 140%;
+            margin-left: 10px;
+
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 15px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #searchBar {
+            margin: 0;
+            border-radius: 20px;
+            min-width: 300px;
+            border: none;
+
+        }
+
+        .search-container input {
+            border: none;
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            flex: 1;
+            margin: 0;
+        }
+
+        .search-container i {
+            color: #888;
+            margin-left: 10px;
+            margin: 0;
+
+        }
+
+
+        .container {
+            padding: 5px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            margin: 10px auto;
+            background-color: rgba(225, 166, 63, 0.8);
+        }
+
+                #step1 {
+            min-height: 450px;
+        }
+
+        #step2 {
+            min-height: 720px;
+        }
+
+        #step3 {
+            min-height: 2700px;
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .preferences button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: 1px solid #007BFF;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .preferences button.selected {
+            background: #007BFF;
+            color: white;
+        }
+
+        .place-card {
+            display: inline-block;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .place-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+        }
+
+        .slider {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        button.next, button.back {
+            margin-top: 30px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        .activity-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .activity-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .activities-list {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+
+        .suggested-activities {
+            margin-top: 20px;
+        }
+        .suggested-activities p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .suggested-activities p:hover {
+            background-color: #f0f0f0;
+        }
+
+        .fa-plus {
+            color: #007BFF;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="custom-header">
+        <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+            <img src="img/logo.png" alt="Company Logo">
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search for places, activities...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="actions">
+            <button class="review" onclick="location.href='select-place.html'">Write a Review</button>
+            <button class="plan" onclick="location.href='plan-trip.html'">Plan Your Trip</button>
+            <button class="login">Login</button>
+            <button class="register">Register</button>
+        </div>
+    </header>
+    
+    <div class="container-wrapper">
+        <!-- Step 1 - Trip Details -->
+        <div class="container" id="step1">
+            <h1>Plan Your Trip</h1>
+            <label for="trip-title">Trip Title</label>
+            <input type="text" id="trip-title" placeholder="Enter trip title">
+            <label for="trip-title">Location</label>
+            <input type="text" id="trip-title" placeholder="Enter location">
+
+            <label for="trip-date">Trip Date</label>
+            <input type="date" id="trip-date">
+
+            <label>Preferences</label>
+            <div class="preferences">
+                <button onclick="toggleSelect(this)">Nature</button>
+                <button onclick="toggleSelect(this)">Foodie Spot</button>
+                <button onclick="toggleSelect(this)">Budget-Friendly</button>
+                <button onclick="toggleSelect(this)">Historical & Cultural</button>
+                <button onclick="toggleSelect(this)">Family-Friendly</button>
+            </div>
+            <button class="next" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- Step 2 - Place Selection -->
+        <div class="container hidden" id="step2">
+            <h1>Plan Your Trip</h1>
+            <p>Select places you plan to visit</p>
+            <label>Selected Places</label>
+            <div class="slider" id="selected-places"></div>
+
+            <label for="search">Search Places</label>
+            <input type="text" id="search" placeholder="Search places..." oninput="filterResults()">
+            <div class="slider" id="search-results"></div>
+
+            <label>Saved Places</label>
+            <div class="slider" id="saved-places"></div>
+
+            <label>Suggested Places</label>
+            <div class="slider" id="suggested-places"></div>
+
+            <button class="back" onclick="prevStep()">Back</button>
+            <button class="next" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- Step 3 - Activity Selection -->
+        <div class="container hidden" id="step3">
+            <h1>Plan Your Trip</h1>
+            <p>Add activities for selected places</p>
+            <div id="activities-section"></div>
+
+            
+            <button class="back" onclick="prevStep()">Back</button>
+            <button class="next" onclick="submitTrip()">Submit</button>
+        </div>
+</div>
+
+    <script>
+        let currentStep = 1;
+        const places = [
+            { name: 'Beautiful Beach', location: 'Miami', img: 'img/1.jpg' },
+            { name: 'Mountain Escape', location: 'Colorado', img: 'img/2.jpg' },
+            { name: 'Sunset Park', location: 'San Francisco', img: 'img/3.jpg' }
+        ];
+
+        function nextStep() {
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            if (currentStep === 2) loadPlaces();
+            if (currentStep === 3) loadActivities();
+        }
+
+        function prevStep() {
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            currentStep--;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+        }
+
+        function toggleSelect(button) {
+            button.classList.toggle('selected');
+        }
+
+        function loadPlaces() {
+            const saved = document.getElementById('saved-places');
+            const suggested = document.getElementById('suggested-places');
+            saved.innerHTML = '';
+            suggested.innerHTML = '';
+            places.forEach(place => {
+                const card = `<div class="place-card" onclick="addPlace('${place.name}')">
+                    <img src="${place.img}" alt="Place">
+                    <p>${place.name} - ${place.location}</p>
+                </div>`;
+                saved.innerHTML += card;
+                suggested.innerHTML += card;
+            });
+        }
+
+        function addPlace(placeName) {
+            const selected = document.getElementById('selected-places');
+            const place = document.createElement('div');
+            place.className = 'place-card';
+            place.innerHTML = `<p>${placeName}</p>`;
+            selected.appendChild(place);
+        }
+
+        function filterResults() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const results = document.getElementById('search-results');
+            results.innerHTML = '';
+            places.forEach(place => {
+                if (place.name.toLowerCase().includes(query)) {
+                    const card = `<div class="place-card" onclick="addPlace('${place.name}')">
+                        <img src="${place.img}" alt="Place">
+                        <p>${place.name} - ${place.location}</p>
+                    </div>`;
+                    results.innerHTML += card;
+                }
+            });
+        }
+
+        function loadActivities() {
+            const activities = document.getElementById('activities-section');
+            activities.innerHTML = '';
+            places.forEach(place => {
+                const card = document.createElement('div');
+                card.className = 'activity-card';
+                card.innerHTML = `
+                    <img src="${place.img}" alt="${place.name}">
+                    <div>
+                        <h3>${place.name}</h3>
+                        <input type="text" placeholder="Add activity...">
+                        <button onclick="addActivity(this)">Add</button>
+                        <div class="activities-list"></div>
+                        <div class="suggested-activities">
+                            <h4>Suggested Activities</h4>
+                            <p onclick="addSuggestedActivity(this, 'Snorkeling')">Snorkeling <i class="fa-solid fa-plus"></i></p>
+                            <p onclick="addSuggestedActivity(this, 'Hiking')">Hiking <i class="fa-solid fa-plus"></i></p>
+                            <p onclick="addSuggestedActivity(this, 'Sightseeing')">Sightseeing <i class="fa-solid fa-plus"></i></p>
+                        </div>
+                    </div>
+                `;
+                activities.appendChild(card);
+            });
+        }
+
+        function addActivity(button) {
+            const input = button.previousElementSibling;
+            if (input.value.trim() !== '') {
+                const activityList = button.parentNode.querySelector('.activities-list');
+                const activityItem = document.createElement('p');
+                activityItem.innerText = `- ${input.value}`;
+                activityList.appendChild(activityItem);
+                input.value = '';
+            }
+        }
+
+        function addSuggestedActivity(element, activity) {
+            const parentCard = element.closest('.activity-card');
+            const activityList = parentCard.querySelector('.activities-list');
+            const activityItem = document.createElement('p');
+            activityItem.innerText = `- ${activity}`;
+            activityList.appendChild(activityItem);
+        }
+
+        function submitTrip() {
+            window.location.href = 'trip-summary.html';
+        }
+    </script>
+</body>
+</html>
